@@ -1,0 +1,9 @@
+inherit: /base/room
+
+descriptive:
+  name: ostraum
+  short: Raum in Osten
+  long: >
+    Es gibt hier überhaupt nichts zu sehen!
+  exits:
+    westen: /rooms/r1

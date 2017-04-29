@@ -13,7 +13,7 @@ class InheritanceException(Exception):
 class Lu(object):
     def __init__(self):
         self.lua = lupa.LuaRuntime()
-    
+
     def eval(self, *args, **kwargs):
         return self.lua.eval(*args, **kwargs)
 
@@ -42,7 +42,7 @@ class Blueprint(object):
             self.is_base = False
             with open(self.full_path) as f:
                 y = yaml.load(f)
-        print(y)
+        # print(y)
         if 'inherit' in y:
             self._inheritance(y['inherit'])
         if 'name' in y:
@@ -59,7 +59,7 @@ class Blueprint(object):
         for fname, fdef in fdefs.items():
             fun = self.table.lu.eval(fdef)
             self.functions[fname] = fun
-            
+
 
     def _inheritance(self, inherit):
         if type(inherit) is str:
@@ -85,6 +85,7 @@ class Blueprint(object):
                 self.short = i.short
             if i.long is not None:
                 self.long = i.long
+            self.ancestors.extend(i.ancestors)
             self.ancestors.append(i_path)
 
     def create(self):
@@ -99,6 +100,8 @@ class Blueprint(object):
 
     def _load_base(self):
         if self.path == '/base/room':
+            return {'inherit':'/base/container'}
+        elif self.path == '/base/container':
             return {}
         else:
             raise KeyError("Invalid base blueprint: '%s'" % self.path)
@@ -116,7 +119,7 @@ class BlueprintTable(object):
             return self.store[path]
         else:
             return self._load_blueprint(path)
-    
+
     def _load_blueprint(self, path):
         self.logger.info("Loading blueprint: '%s'", path)
         bp = Blueprint(self, path)
@@ -133,4 +136,3 @@ r1 = bpt.get_blueprint('rooms/r1')
 i = r1.create()
 print(i.long)
 print(i.blueprint.ancestors)
-

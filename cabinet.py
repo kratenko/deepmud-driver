@@ -4,6 +4,7 @@ import logging
 import yaml
 import lupa
 
+
 logger = logging.getLogger(__name__)
 
 class InheritanceException(Exception):
@@ -77,7 +78,7 @@ class Cabinet(object):
         self.root = root
         self.files = {}
         logger.info("Setting up lua runtime environment")
-        self.lua = lupa.LuaRuntime(
+        self.lua = lupa.LuaRuntime(  # @UndefinedVariable
             register_eval=False,
             unpack_returned_tuples=True,
         )
@@ -100,8 +101,8 @@ class Cabinet(object):
             return self.load_file(path)
 
 
-logging.basicConfig(level=logging.DEBUG)
-cab = Cabinet('cab')
-r1 = cab.get_compiled_file('rooms/r1')
-print(r1.functions)
-r1.functions['create']()
+#logging.basicConfig(level=logging.DEBUG)
+#cab = Cabinet('cab')
+#r1 = cab.get_compiled_file('rooms/r1')
+#print(r1.functions)
+#r1.functions['create']()
